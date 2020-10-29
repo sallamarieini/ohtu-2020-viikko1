@@ -16,9 +16,7 @@ public class VarastoTest {
     double vertailuTarkkuus = 0.0001;
 
     @Before
-    public void setUp() {
-        varasto = new Varasto(10);
-    }
+    public void setUp() { varasto = new Varasto(10); }
 
     @Test
     public void konstruktoriLuoTyhjanVaraston() {
@@ -65,4 +63,75 @@ public class VarastoTest {
         assertEquals(4, varasto.paljonkoMahtuu(), vertailuTarkkuus);
     }
 
+    @Test
+    public void kayttokelvotonVarastoLuodaan() {
+        Varasto varasto2;
+        varasto2 = new Varasto(-2);
+        assertEquals(0.0, varasto2.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void lisaaNegatiivinenMaara() {
+        varasto.lisaaVarastoon(-5);
+        assertEquals(0, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void lisaaEnemmanKuinMahtuu() {
+        varasto.lisaaVarastoon(15);
+        assertEquals(10, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void otaVarastostaNegatiivinenMaara() {
+        assertEquals(0.0, varasto.otaVarastosta(-4), vertailuTarkkuus);
+    }
+
+    @Test
+    public void otaVarastostaEnemmanKuinSiellaOn() {
+        varasto.lisaaVarastoon(5);
+        assertEquals(5, varasto.otaVarastosta(7), vertailuTarkkuus);
+    }
+
+    @Test
+    public void otaEnemmanKuinOnSaldoNollautuu() {
+        varasto.lisaaVarastoon(5);
+        varasto.otaVarastosta(7);
+        assertEquals(0, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void toStringTarkastus() {
+        assertEquals("saldo = 0.0, vielä tilaa 10.0", varasto.toString());
+    }
+
+    @Test
+    public void luoKuormitettuVarastoTilavuus() {
+        Varasto kuormitettuVarasto = new Varasto(10, 2);
+        assertEquals(10, kuormitettuVarasto.getTilavuus(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void luoKuormitettuVarastoSaldo() {
+        Varasto kuormitettuVarasto = new Varasto(10, 2);
+        assertEquals(2, kuormitettuVarasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void luoKuormitettuVarastoNegatiivinenTilavuus() {
+        Varasto v = new Varasto(-10, 2);
+        assertEquals(0.0, v.getTilavuus(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void luoKuormitettuVarastoNegSaldo() {
+        Varasto v = new Varasto(10, -3);
+        assertEquals(0.0, v.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void luoKuormitettuVarastoAlkuSaldoSuurempiKuinTilavuus() {
+        Varasto v = new Varasto(10, 13);
+        assertEquals(10, v.getSaldo(), vertailuTarkkuus);
+    }
 }
