@@ -27,4 +27,4 @@ jobs:
     - name: Data to codecov
       run: bash <(curl -s https://codecov.io/bash)
     - name: Checkstyle
-      run: ./gradlew
+      run: ./gradlew checkstyleMain
